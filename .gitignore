@@ -1,0 +1,25 @@
+*.class
+
+#maven
+target/
+
+#package
+*.war
+*.ear
+
+.idea/
+/idea/
+*.iml
+*.ipr
+*.iws
+
+#eclipse
+.project
+.classpath
+.setting/riy
+
+#temp file
+*.log
+*.cache
+*.patch
+*.tmp
