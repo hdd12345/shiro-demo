@@ -9,6 +9,8 @@ import org.apache.shiro.util.Factory;
 import org.junit.jupiter.api.Test;
 import org.apache.shiro.mgt.SecurityManager;
 
+import java.util.Arrays;
+
 public class HddShiroTest {
 
     @Test
@@ -35,4 +37,87 @@ public class HddShiroTest {
         isAuthenticated = subject.isAuthenticated();
         System.out.println("用户认证状态："+isAuthenticated);
     }
+
+    @Test
+    public void testCustomRealmLoginLogout(){
+        //构建SecurityManager工厂，IniSecurityManagerFactory可以从ini文件中初始化SecurityManager环境
+        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/shiro-realm.ini");
+        //通过工厂创建SecurityManager实例
+        SecurityManager securityManager = factory.getInstance();
+        //将SecurityManager设置到运行环境中
+        SecurityUtils.setSecurityManager(securityManager);
+        //创建Subject实例，该实例认证要使用SecurityManager进行
+        Subject subject = SecurityUtils.getSubject();
+        //创建token，记录用户认证的身份和凭证（即账号和密码）
+        UsernamePasswordToken token = new UsernamePasswordToken("hdd","123");
+        try{
+            //用户登录
+            subject.login(token);
+        }catch (AuthenticationException e){
+            e.printStackTrace();
+        }
+        boolean isAuthenticated = subject.isAuthenticated();
+        System.out.println("用户认证状态："+isAuthenticated);
+        subject.logout();
+        isAuthenticated = subject.isAuthenticated();
+        System.out.println("用户认证状态："+isAuthenticated);
+    }
+
+    @Test
+    public void testCustomRealmMD5LoginLogout(){
+        //构建SecurityManager工厂，IniSecurityManagerFactory可以从ini文件中初始化SecurityManager环境
+        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/shiro-realm2.ini");
+        //通过工厂创建SecurityManager实例
+        SecurityManager securityManager = factory.getInstance();
+        //将SecurityManager设置到运行环境中
+        SecurityUtils.setSecurityManager(securityManager);
+        //创建Subject实例，该实例认证要使用SecurityManager进行
+        Subject subject = SecurityUtils.getSubject();
+        //创建token，记录用户认证的身份和凭证（即账号和密码）
+        UsernamePasswordToken token = new UsernamePasswordToken("hdd","123");
+        try{
+            //用户登录
+            subject.login(token);
+        }catch (AuthenticationException e){
+            e.printStackTrace();
+        }
+        boolean isAuthenticated = subject.isAuthenticated();
+        System.out.println("用户认证状态："+isAuthenticated);
+        subject.logout();
+        isAuthenticated = subject.isAuthenticated();
+        System.out.println("用户认证状态："+isAuthenticated);
+    }
+
+    @Test
+    public void testPermission(){
+        //构建SecurityManager工厂，IniSecurityManagerFactory可以从ini文件中初始化SecurityManager环境
+        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/shiro-permission.ini");
+        //通过工厂创建SecurityManager实例
+        SecurityManager securityManager = factory.getInstance();
+        //将SecurityManager设置到运行环境中
+        SecurityUtils.setSecurityManager(securityManager);
+        //创建Subject实例，该实例认证要使用SecurityManager进行
+        Subject subject = SecurityUtils.getSubject();
+        //创建token，记录用户认证的身份和凭证（即账号和密码）
+        UsernamePasswordToken token = new UsernamePasswordToken("hdd","123");
+        //用户登录
+        subject.login(token);
+        boolean isAuthenticated = subject.isAuthenticated();
+        System.out.println("用户认证状态："+isAuthenticated);
+        /**用户授权检测，基于角色授权**/
+        //是否有某一个角色
+        System.out.println("用户是否拥有role1角色："+subject.hasRole("role1"));
+        //是否有多个角色
+        System.out.println("用户是否拥有role1角色和role2角色："+subject.hasRoles(Arrays.asList("role1","role2")));
+        //subject.checkRole("role1");//授权检测，检测失败抛出异常
+        //subject.checkRoles(Arrays.asList("role1","role2"));
+        /**基于资源授权**/
+        //是否有某一个权限
+        System.out.println("用户是否拥有某一个权限："+subject.isPermitted("user:update"));
+        //是否有多个权限
+        System.out.println("用户是否拥有多个权限："+subject.isPermittedAll("user:update","user:create"));
+        //subject.checkPermission("user:update");//检测权限
+        //subject.checkPermissions("user:update","user:create");
+    }
+
 }
