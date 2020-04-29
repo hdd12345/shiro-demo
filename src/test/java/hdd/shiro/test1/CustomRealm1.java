@@ -5,8 +5,12 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomRealm1 extends AuthorizingRealm {
 
@@ -17,7 +21,16 @@ public class CustomRealm1 extends AuthorizingRealm {
 
     //授权
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        //获取身份信息
+        String username = principalCollection.getPrimaryPrincipal().toString();
+        /** 从数据库获取权限信息，此处使用静态数据模拟 **/
+        List<String> permissions = new ArrayList<String>();
+        permissions.add("user:create");
+        permissions.add("user:update");
+        //将权限信息放入AuthorizationInfo中
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        permissions.forEach(permission -> simpleAuthorizationInfo.addStringPermission(permission));
+        return simpleAuthorizationInfo;
     }
 
     //认证

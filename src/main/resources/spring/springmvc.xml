@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+    <!-- 使用组建扫描的方式加载Handler，可以扫描controller、service等等 -->
+    <context:component-scan base-package="hdd.controller"></context:component-scan>
+
+    <!-- 使用mvc:annotation-driven代替注解映射器和注解适配器的配置
+    	mvc:annotation-driven默认加载很多的参数绑定方法，比如默认加载了json转换解析器 -->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!-- 拦截器 -->
+    <!--<mvc:interceptors>
+        &lt;!&ndash; 配置多个拦截器时按顺序执行 &ndash;&gt;
+        <mvc:interceptor>
+            &lt;!&ndash; /**表示所有url包括子路径 &ndash;&gt;
+            <mvc:mapping path="/**"/>
+            <bean id="myHandlerInterceptor" class="hdd.interceptor.MyHandlerInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+
+    <!--对进入DispatcherServlet的URL进行筛查，如果发现是静态资源的请求， 就将该请求转由Web应用服务器默认的Servlet处理，如果不是静态资源的请求，才由DispatcherServlet继续处理。 -->
+    <mvc:default-servlet-handler />
+
+    <!-- 视图解析器:解析jsp，默认使用jstl标签，classpath下需要引入jstl的jar包 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 前缀和后缀配置 -->
+        <property name="prefix" value=""/>
+        <property name="suffix" value=""/>
+    </bean>
+
+    <!-- 类型解析器：用于文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置文件上传的最大尺寸为50MB -->
+        <property name="maxUploadSize">
+            <value>52428000</value>
+        </property>
+    </bean>
+
+</beans>

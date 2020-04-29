@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 自定义别名 -->
+    <typeAliases>
+        <!-- 单个别名定义 -->
+        <!-- <typeAlias type="com.shop.entity.User" alias="User"/> -->
+        <!-- 批量别名定义，指定包名称来为该包下的po类声明别名，默认的别名就是类名（首字母大小写都可） -->
+        <package name="com.shop.entity"/>
+    </typeAliases>
+
+    <!-- 使用spring和mybatis的整合包进行mapper扫描，此处无需再写mappers加载映射文件
+    	遵循的规范：mapper.xml和mapper.java必须同名且在一个目录下 -->
+
+</configuration>
