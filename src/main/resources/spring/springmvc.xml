@@ -7,9 +7,6 @@
 	 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 	 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-    <!-- 使用组建扫描的方式加载Handler，可以扫描controller、service等等 -->
-    <context:component-scan base-package="hdd.controller"></context:component-scan>
-
     <!-- 使用mvc:annotation-driven代替注解映射器和注解适配器的配置
     	mvc:annotation-driven默认加载很多的参数绑定方法，比如默认加载了json转换解析器 -->
     <mvc:annotation-driven></mvc:annotation-driven>
@@ -32,14 +29,6 @@
         <!-- 前缀和后缀配置 -->
         <property name="prefix" value=""/>
         <property name="suffix" value=""/>
-    </bean>
-
-    <!-- 类型解析器：用于文件上传 -->
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <!-- 设置文件上传的最大尺寸为50MB -->
-        <property name="maxUploadSize">
-            <value>52428000</value>
-        </property>
     </bean>
 
 </beans>

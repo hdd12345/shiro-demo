@@ -9,6 +9,7 @@ public class ActiveUser implements Serializable {
     private String userCode;
     private String username;
 
+    private List<String> menus;
     private List<String> permissions;
 
     public String getUserId() {
@@ -41,5 +42,13 @@ public class ActiveUser implements Serializable {
 
     public void setPermissions(List<String> permissions) {
         this.permissions = permissions;
+    }
+
+    public List<String> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<String> menus) {
+        this.menus = menus;
     }
 }
