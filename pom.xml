@@ -20,7 +20,7 @@
         </plugins>
     </build>
     <properties>
-        <shiro-version>1.4.0</shiro-version>
+        <shiro-version>1.6.0</shiro-version>
     </properties>
 
     <dependencies>
